@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import subprocess
 
-st.set_page_config(
-    page_title="Streamlit simple app", page_icon=":guardsman:"
-)
+st.set_page_config(page_title="Streamlit simple app", page_icon=":whale:")
 # load css file
 st.markdown(
     "<style> .centered {text-align: center;} </style>", unsafe_allow_html=True
@@ -52,11 +50,13 @@ if st.session_state.checked_count > 2:
         st.session_state.checked_count -= 1
 
 # Create text box labeled "Select output"
+st.write("## Select output")
 output_path = st.selectbox(
     "Select output", ["Age", "EstimatedSalary", "Purchased"]
 )
 
 # Create dropbox labeled "Select algorithm"
+st.write("## Select algorithm")
 algorithm = st.selectbox(
     "Select algorithm",
     [
