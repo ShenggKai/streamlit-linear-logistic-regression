@@ -11,7 +11,7 @@ from sklearn.metrics import f1_score
 # %matplotlib inline
 
 
-def get_result(df):
+def get_result_lg(df):
     # df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
     # normalize dataset
     scaler = MinMaxScaler()

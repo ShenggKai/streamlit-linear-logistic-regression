@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import subprocess
-from logistic import get_result
+from logistic import get_result_lg
+from linear import get_result_ln
 
 st.set_page_config(page_title="Simple Streamlit app", page_icon=":whale:")
 
@@ -84,7 +85,11 @@ if uploaded_file is not None:
             output = run_external_script()
             st.write("## Result")
 
-            result, data_shape = get_result(df)
+            # Return result based on algorithm
+            if (algorithm == "Logistic regression"):
+                result, data_shape = get_result_lg(df)
+            else:
+                result, data_shape = get_result_ln(df)
 
             train_shape = str(data_shape[0]) + " " + str(data_shape[1])
             test_shape = str(data_shape[2]) + " " + str(data_shape[3])
