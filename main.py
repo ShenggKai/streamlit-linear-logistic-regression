@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import subprocess
+from logistic import result, data_shape
 
 st.set_page_config(page_title="Simple Streamlit app", page_icon=":whale:")
 
@@ -59,12 +60,7 @@ if uploaded_file is not None:
 
         # Define function to run external Python file
         def run_external_script():
-            result = subprocess.run(
-                ["python", "logistic.py"],
-                capture_output=True,
-                text=True,
-            )
-            return result.stdout
+            subprocess.run(["python", "logistic.py"])
 
         # Create button
         button_style = """
@@ -86,6 +82,14 @@ if uploaded_file is not None:
 
         if st.button("Run"):
             output = run_external_script()
-            print(type(output))
             st.write("## Result")
-            st.write(output)
+
+            train_shape = str(data_shape[0]) + " " + str(data_shape[1])
+            test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+
+            table_result = {
+                "": ["Training set", "Test set"],
+                "Data shape": [train_shape, test_shape],
+                "F1 score": [result[0], result[1]],
+            }
+            st.table(table_result)
