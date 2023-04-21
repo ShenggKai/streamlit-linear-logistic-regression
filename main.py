@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import subprocess
-from logistic import result, data_shape
+from logistic import get_result
 
 st.set_page_config(page_title="Simple Streamlit app", page_icon=":whale:")
 
@@ -83,6 +83,8 @@ if uploaded_file is not None:
         if st.button("Run"):
             output = run_external_script()
             st.write("## Result")
+
+            result, data_shape = get_result(df)
 
             train_shape = str(data_shape[0]) + " " + str(data_shape[1])
             test_shape = str(data_shape[2]) + " " + str(data_shape[3])
