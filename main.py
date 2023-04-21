@@ -2,16 +2,28 @@ import streamlit as st
 import pandas as pd
 import subprocess
 
-st.title("Upload CSV File")
+st.set_page_config(
+    page_title="Streamlit simple app", page_icon=":guardsman:"
+)
+# load css file
+st.markdown(
+    "<style> .centered {text-align: center;} </style>", unsafe_allow_html=True
+)
 
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+# Apply CSS class to title
+st.markdown(
+    '<h1 class="centered">Streamlit Simple App</h1>', unsafe_allow_html=True
+)
+
+st.write("## Upload a CSV file")
+uploaded_file = st.file_uploader("Select a csv file", type="csv")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file, sep=";")
     st.write(df)
 
 # Create text box labeled "Select input"
-st.text("Select input")
+st.write("## Select input")
 if "checked_count" not in st.session_state:
     st.session_state.checked_count = 0
 
@@ -48,9 +60,8 @@ output_path = st.selectbox(
 algorithm = st.selectbox(
     "Select algorithm",
     [
-        "Logistic Regression with normalized data",
-        "Logistic Regression without normalized data",
-        "Algorithm 3",
+        "Linear regression",
+        "Logistic regression",
     ],
 )
 
