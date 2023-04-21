@@ -23,7 +23,7 @@ if uploaded_file is not None:
     delimiters = {",": ",", ";": ";", ".": ".", "Tab": "\tab"}
     delimiter = st.selectbox("Select delimiter:", list(delimiters.keys()))
 
-    df = pd.read_csv(uploaded_file, sep=delimiter, engine='python')
+    df = pd.read_csv(uploaded_file, sep=delimiter, engine="python")
     st.write(df)
 
     # Retrieve all columns in DataFrame and store them in list
