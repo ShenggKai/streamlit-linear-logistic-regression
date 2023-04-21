@@ -54,8 +54,8 @@ if uploaded_file is not None:
         algorithm = st.selectbox(
             "Select algorithm",
             [
-                "Linear regression",
                 "Logistic regression",
+                "Linear regression",
             ],
         )
 
