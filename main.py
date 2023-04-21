@@ -83,4 +83,5 @@ if uploaded_file is not None:
 
         if st.button("Run"):
             output = run_external_script()
+            st.write("## Result")
             st.write(output)
