@@ -6,13 +6,16 @@ st.set_page_config(page_title="Simple Streamlit app", page_icon=":whale:")
 
 # load css
 st.markdown(
-    "<style> .centered {text-align: center;} </style>", unsafe_allow_html=True
+    "<style> .centered {text-align: center;color: #00B3B3;} </style>",
+    unsafe_allow_html=True,
 )
 
 # Apply CSS class to title
 st.markdown(
     '<h1 class="centered">Simple Streamlit App</h1>', unsafe_allow_html=True
 )
+st.write("")
+st.write("")
 
 # Upload a CSV file
 st.write("## Upload a CSV file")
@@ -83,5 +86,6 @@ if uploaded_file is not None:
 
         if st.button("Run"):
             output = run_external_script()
+            print(type(output))
             st.write("## Result")
             st.write(output)
