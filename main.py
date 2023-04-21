@@ -76,7 +76,25 @@ def run_external_script():
     return result.stdout
 
 
-# Create a Streamlit button that runs the external script
-if st.button("Run"):
+button_style = """
+    <style>
+    .stButton button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    </style>
+"""
+
+st.markdown(button_style, unsafe_allow_html=True)
+
+if st.button("Run", help="Button help"):
     output = run_external_script()
     st.write(output)
