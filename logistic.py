@@ -11,14 +11,14 @@ from sklearn.metrics import f1_score
 # %matplotlib inline
 
 
-def get_result_lg(df, test_sz, random_st):
+def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
     # df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
     # normalize dataset
     scaler = MinMaxScaler()
     df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
 
-    x = df.iloc[:, :2].to_numpy()
-    y = df["Purchased"].to_numpy()
+    x = df[selected_input].to_numpy()
+    y = df[selected_output[0]].to_numpy()
 
     # Split dataset
     (

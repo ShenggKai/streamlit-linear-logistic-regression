@@ -126,7 +126,11 @@ if uploaded_file is not None:
                 # Return result based on algorithm
                 if algorithm == "Logistic regression":
                     result, data_shape = get_result_lg(
-                        df, test_size, random_state
+                        df,
+                        selected_input,
+                        selected_output,
+                        test_size,
+                        random_state,
                     )
                 else:
                     result, data_shape = get_result_ln(df)
@@ -140,6 +144,3 @@ if uploaded_file is not None:
                     "F1 score": [result[0], result[1]],
                 }
                 st.table(table_result)
-
-                print(selected_input)
-                print(selected_output)
