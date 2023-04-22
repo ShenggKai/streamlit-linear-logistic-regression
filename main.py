@@ -4,7 +4,7 @@ import subprocess
 from logistic import get_result_lg
 from linear import get_result_ln
 
-st.set_page_config(page_title="Simple Streamlit app", page_icon=":whale:")
+st.set_page_config(page_title="Simple Streamlit App", page_icon=":whale:")
 
 # load css
 st.markdown(
