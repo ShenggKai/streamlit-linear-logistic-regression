@@ -40,13 +40,14 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
         f1_score(y_test, logreg.predict(X_test), average="weighted"), 5
     )
 
-    # get the result
     result = []
     data_shape = []
 
+    # get F1-score values
     result.append(train_result)
     result.append(test_result)
 
+    # get data shape
     data_shape.append(X_train.shape)
     data_shape.append(y_train.shape)
 

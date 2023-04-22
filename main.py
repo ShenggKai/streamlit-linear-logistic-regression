@@ -63,7 +63,11 @@ if uploaded_file is not None:
         # Custom random state
         st.write("## Split dataset")
         random_state = st.number_input(
-            "Enter random state number:", step=1, value=19521338
+            "Enter random state number between 0 and $2^{32} - 1$:",
+            step=1,
+            value=19521338,
+            min_value=0,
+            max_value=2**32 - 1,
         )
 
         # Split dataset
@@ -74,7 +78,7 @@ if uploaded_file is not None:
         # Create a slider for the first value
         st.text("")
         st.write("Choose test size to evaluate model")
-        test_size = st.slider("Test size (%)", 0, 100, test_size)
+        test_size = st.slider("Test size (%)", 1, 99, test_size)
 
         # Calculate the second value based on the slider value
         train_size = 100 - test_size
