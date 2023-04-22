@@ -11,14 +11,14 @@ from sklearn.metrics import f1_score
 # %matplotlib inline
 
 
-def get_result_lg(df):
+def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
     # df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
     # normalize dataset
     scaler = MinMaxScaler()
     df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
 
-    x = df.iloc[:, :2].to_numpy()
-    y = df["Purchased"].to_numpy()
+    X = df[selected_input].to_numpy()
+    y = df[selected_output[0]].to_numpy()
 
     # Split dataset
     (
@@ -26,10 +26,10 @@ def get_result_lg(df):
         X_test,
         y_train,
         y_test,
-    ) = train_test_split(x, y, test_size=0.2, random_state=19521338)
+    ) = train_test_split(X, y, test_size=test_sz, random_state=random_st)
 
     # Train model
-    logreg = LogisticRegression(random_state=19521338)
+    logreg = LogisticRegression(random_state=random_st)
     logreg.fit(X_train, y_train)
 
     train_result = round(
@@ -40,17 +40,18 @@ def get_result_lg(df):
         f1_score(y_test, logreg.predict(X_test), average="weighted"), 5
     )
 
-    # get the result
     result = []
     data_shape = []
 
-    result.append(test_result)
+    # get F1-score values
     result.append(train_result)
+    result.append(test_result)
 
+    # get data shape
     data_shape.append(X_train.shape)
     data_shape.append(y_train.shape)
 
-    data_shape.append(y_test.shape)
+    data_shape.append(X_test.shape)
     data_shape.append(y_test.shape)
 
     return result, data_shape
