@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import subprocess
 from logistic import get_result_lg
 from linear import get_result_ln
 
@@ -97,10 +96,6 @@ if uploaded_file is not None:
             ],
         )
 
-        # Define function to run external Python file
-        def run_external_script():
-            subprocess.run(["python", "logistic.py"])
-
         # Create button
         button_style = """
             <style>
@@ -124,7 +119,6 @@ if uploaded_file is not None:
             if len(selected_input) == 0:
                 st.warning("Please select input!")
             else:
-                output = run_external_script()
                 st.write("## Result")
 
                 # Return result based on algorithm
