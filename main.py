@@ -39,17 +39,26 @@ if uploaded_file is not None:
     else:
         # Select output
         st.write("## Select output")
-        output_path = st.selectbox("Select output", column_names)
+
+        # list to store output
+        selected_output = []
+        selected_output.append(st.selectbox("Select output", column_names))
 
         # Select input checkboxes
         st.write("## Select input")
-        selected_columns = output_path
-
-        checkbox_values = []  # Check whether at least 1 checkbox is checked
+        checkbox_values = []  # List to store all checkboxes value
+        checkbox_status = []  # List to store all checkboxes status
         for column_name in column_names:
-            if column_name not in selected_columns:
-                selected = st.checkbox(column_name)
-                checkbox_values.append(selected)
+            if column_name not in selected_output:
+                check_box = st.checkbox(column_name)
+                checkbox_status.append(check_box)
+                checkbox_values.append(column_name)
+
+        # list to store checked boxes aka input
+        selected_input = []
+        for i in range(len(checkbox_values)):
+            if checkbox_status[i]:
+                selected_input.append(checkbox_values[i])
 
         # Custom random state
         st.write("## Split dataset")
@@ -108,7 +117,7 @@ if uploaded_file is not None:
 
         if st.button("Run"):
             # check if at least one checkbox is checked
-            if not any(checkbox_values):
+            if len(selected_input) == 0:
                 st.warning("Please select input!")
             else:
                 output = run_external_script()
@@ -131,3 +140,6 @@ if uploaded_file is not None:
                     "F1 score": [result[0], result[1]],
                 }
                 st.table(table_result)
+
+                print(selected_input)
+                print(selected_output)
