@@ -28,6 +28,10 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
         y_test,
     ) = train_test_split(X, y, test_size=test_sz, random_state=random_st)
 
+    print("Training data shape: ", X_train.shape, y_train.shape)
+    print("validation data shape: ", X_test.shape, y_test.shape)
+    print()
+
     # Train model
     logreg = LogisticRegression(random_state=random_st)
     logreg.fit(X_train, y_train)
@@ -54,3 +58,20 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
     data_shape.append(y_test.shape)
 
     return result, data_shape
+
+
+df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
+selected_input = ["Age", "EstimatedSalary"]
+selected_output = ["Purchased"]
+test_sz = 0.2
+random_st = 19521338
+
+result, data_shape = get_result_lg(
+    df, selected_input, selected_output, test_sz, random_st
+)
+
+print("Training result:", result[0])
+print("Test result:", result[1])
+print()
+print(f"Training shape: {str(data_shape[0])}, {str(data_shape[1])}")
+print(f"Test shape: {str(data_shape[2])}, {str(data_shape[3])}")

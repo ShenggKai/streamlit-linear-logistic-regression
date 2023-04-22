@@ -63,7 +63,7 @@ if uploaded_file is not None:
         # Custom random state
         st.write("## Split dataset")
         random_state = st.number_input(
-            "Enter random state number:", step=1, value=0
+            "Enter random state number:", step=1, value=19521338
         )
 
         # Split dataset
