@@ -128,23 +128,34 @@ if uploaded_file is not None:
                 st.write("## Result")
 
                 # Return result based on algorithm
+                result, data_shape = [], []
+                flag_error = False
                 if algorithm == "Logistic regression":
-                    result, data_shape = get_result_lg(
-                        df,
-                        selected_input,
-                        selected_output,
-                        test_size,
-                        random_state,
-                    )
+                    try:
+                        result, data_shape = get_result_lg(
+                            df,
+                            selected_input,
+                            selected_output,
+                            test_size,
+                            random_state,
+                        )
+                    except Exception as e:
+                        st.error(f"Error occurred: {e}")
+                        # set flag to True if an error occurred
+                        flag_error = True
+
+                # algorithm is linear regression
                 else:
                     result, data_shape = get_result_ln(df)
 
-                train_shape = str(data_shape[0]) + " " + str(data_shape[1])
-                test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+                if not flag_error:
+                    # code to run if no errors occurred
+                    train_shape = str(data_shape[0]) + " " + str(data_shape[1])
+                    test_shape = str(data_shape[2]) + " " + str(data_shape[3])
 
-                table_result = {
-                    "": ["Training set", "Test set"],
-                    "Data shape": [train_shape, test_shape],
-                    "F1 score": [result[0], result[1]],
-                }
-                st.table(table_result)
+                    table_result = {
+                        "": ["Training set", "Test set"],
+                        "Data shape": [train_shape, test_shape],
+                        "F1 score": [result[0], result[1]],
+                    }
+                    st.table(table_result)
