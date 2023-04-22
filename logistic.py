@@ -50,7 +50,7 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
     data_shape.append(X_train.shape)
     data_shape.append(y_train.shape)
 
-    data_shape.append(y_test.shape)
+    data_shape.append(X_test.shape)
     data_shape.append(y_test.shape)
 
     return result, data_shape

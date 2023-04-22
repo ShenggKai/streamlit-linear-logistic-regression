@@ -54,7 +54,7 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
     data_shape.append(X_train.shape)
     data_shape.append(y_train.shape)
 
-    data_shape.append(y_test.shape)
+    data_shape.append(X_test.shape)
     data_shape.append(y_test.shape)
 
     return result, data_shape
@@ -63,8 +63,8 @@ def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
 df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
 selected_input = ["Age", "EstimatedSalary"]
 selected_output = ["Purchased"]
-test_sz = 0.2
-random_st = 19521338
+test_sz = 0.4
+random_st = 69
 
 result, data_shape = get_result_lg(
     df, selected_input, selected_output, test_sz, random_st
