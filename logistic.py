@@ -12,7 +12,6 @@ from sklearn.metrics import f1_score
 
 
 def get_result_lg(df, selected_input, selected_output, test_sz, random_st):
-    # df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
     # normalize dataset
     scaler = MinMaxScaler()
     df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
