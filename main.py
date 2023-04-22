@@ -51,6 +51,29 @@ if uploaded_file is not None:
                 selected = st.checkbox(column_name)
                 checkbox_values.append(selected)
 
+        # Custom random state
+        st.write("## Split dataset")
+        random_state = st.number_input(
+            "Enter random state number:", step=1, value=0
+        )
+
+        # Split dataset
+        # Define the initial values
+        test_size = 20
+        train_size = 80
+
+        # Create a slider for the first value
+        st.text("")
+        st.write("Choose test size to evaluate model")
+        test_size = st.slider("Test size (%)", 0, 100, test_size)
+
+        # Calculate the second value based on the slider value
+        train_size = 100 - test_size
+        st.write(f"- Train size: {str(train_size)}%")
+        st.write(f"- Test size: {str(test_size)}%")
+
+        test_size = float(test_size / 100)
+
         # Select algorithm
         st.write("## Select algorithm")
         algorithm = st.selectbox(
@@ -93,7 +116,9 @@ if uploaded_file is not None:
 
                 # Return result based on algorithm
                 if algorithm == "Logistic regression":
-                    result, data_shape = get_result_lg(df)
+                    result, data_shape = get_result_lg(
+                        df, test_size, random_state
+                    )
                 else:
                     result, data_shape = get_result_ln(df)
 

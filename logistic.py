@@ -11,7 +11,7 @@ from sklearn.metrics import f1_score
 # %matplotlib inline
 
 
-def get_result_lg(df):
+def get_result_lg(df, test_sz, random_st):
     # df = pd.read_csv("data/Social_Network_Ads.csv", sep=";")
     # normalize dataset
     scaler = MinMaxScaler()
@@ -26,10 +26,10 @@ def get_result_lg(df):
         X_test,
         y_train,
         y_test,
-    ) = train_test_split(x, y, test_size=0.2, random_state=19521338)
+    ) = train_test_split(x, y, test_size=test_sz, random_state=random_st)
 
     # Train model
-    logreg = LogisticRegression(random_state=19521338)
+    logreg = LogisticRegression(random_state=random_st)
     logreg.fit(X_train, y_train)
 
     train_result = round(
