@@ -45,9 +45,11 @@ if uploaded_file is not None:
         st.write("## Select input")
         selected_columns = output_path
 
+        checkbox_values = []  # Check whether at least 1 checkbox is checked
         for column_name in column_names:
             if column_name not in selected_columns:
                 selected = st.checkbox(column_name)
+                checkbox_values.append(selected)
 
         # Select algorithm
         st.write("## Select algorithm")
@@ -82,21 +84,25 @@ if uploaded_file is not None:
         st.markdown(button_style, unsafe_allow_html=True)
 
         if st.button("Run"):
-            output = run_external_script()
-            st.write("## Result")
-
-            # Return result based on algorithm
-            if (algorithm == "Logistic regression"):
-                result, data_shape = get_result_lg(df)
+            # check if at least one checkbox is checked
+            if not any(checkbox_values):
+                st.warning("Please select input!")
             else:
-                result, data_shape = get_result_ln(df)
+                output = run_external_script()
+                st.write("## Result")
 
-            train_shape = str(data_shape[0]) + " " + str(data_shape[1])
-            test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+                # Return result based on algorithm
+                if algorithm == "Logistic regression":
+                    result, data_shape = get_result_lg(df)
+                else:
+                    result, data_shape = get_result_ln(df)
 
-            table_result = {
-                "": ["Training set", "Test set"],
-                "Data shape": [train_shape, test_shape],
-                "F1 score": [result[0], result[1]],
-            }
-            st.table(table_result)
+                train_shape = str(data_shape[0]) + " " + str(data_shape[1])
+                test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+
+                table_result = {
+                    "": ["Training set", "Test set"],
+                    "Data shape": [train_shape, test_shape],
+                    "F1 score": [result[0], result[1]],
+                }
+                st.table(table_result)
