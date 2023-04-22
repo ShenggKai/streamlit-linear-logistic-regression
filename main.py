@@ -123,6 +123,7 @@ if uploaded_file is not None:
 
                 # Return result based on algorithm
                 result, data_shape = [], []
+                result_train, result_test = [], []
                 flag_error = False
                 if algorithm == "Logistic regression":
                     try:
@@ -140,9 +141,15 @@ if uploaded_file is not None:
 
                 # algorithm is linear regression
                 else:
-                    result, data_shape = get_result_ln(df)
+                    result_train, result_test, data_shape = get_result_ln(
+                        df,
+                        selected_input,
+                        selected_output,
+                        test_size,
+                        random_state,
+                    )
 
-                if not flag_error:
+                if not flag_error and algorithm == "Logistic regression":
                     # code to run if no errors occurred
                     train_shape = str(data_shape[0]) + " " + str(data_shape[1])
                     test_shape = str(data_shape[2]) + " " + str(data_shape[3])
@@ -153,3 +160,5 @@ if uploaded_file is not None:
                         "F1 score": [result[0], result[1]],
                     }
                     st.table(table_result)
+                elif not flag_error and algorithm == "Linear regression":
+                    st.write(result_train, result_test, data_shape)
