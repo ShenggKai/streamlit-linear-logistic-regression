@@ -39,22 +39,35 @@ if uploaded_file is not None:
     else:
         # Select output
         st.write("## Select output")
-        output_path = st.selectbox("Select output", column_names)
+
+        # list to store output
+        selected_output = []
+        selected_output.append(st.selectbox("Select output", column_names))
 
         # Select input checkboxes
         st.write("## Select input")
-        selected_columns = output_path
-
-        checkbox_values = []  # Check whether at least 1 checkbox is checked
+        checkbox_values = []  # List to store all checkboxes value
+        checkbox_status = []  # List to store all checkboxes status
         for column_name in column_names:
-            if column_name not in selected_columns:
-                selected = st.checkbox(column_name)
-                checkbox_values.append(selected)
+            if column_name not in selected_output:
+                check_box = st.checkbox(column_name)
+                checkbox_status.append(check_box)
+                checkbox_values.append(column_name)
+
+        # list to store checked boxes aka input
+        selected_input = []
+        for i in range(len(checkbox_values)):
+            if checkbox_status[i]:
+                selected_input.append(checkbox_values[i])
 
         # Custom random state
         st.write("## Split dataset")
         random_state = st.number_input(
-            "Enter random state number:", step=1, value=0
+            "Enter random state number between 0 and $2^{32} - 1$:",
+            step=1,
+            value=19521338,
+            min_value=0,
+            max_value=2**32 - 1,
         )
 
         # Split dataset
@@ -65,7 +78,7 @@ if uploaded_file is not None:
         # Create a slider for the first value
         st.text("")
         st.write("Choose test size to evaluate model")
-        test_size = st.slider("Test size (%)", 0, 100, test_size)
+        test_size = st.slider("Test size (%)", 1, 99, test_size)
 
         # Calculate the second value based on the slider value
         train_size = 100 - test_size
@@ -108,26 +121,41 @@ if uploaded_file is not None:
 
         if st.button("Run"):
             # check if at least one checkbox is checked
-            if not any(checkbox_values):
+            if len(selected_input) == 0:
                 st.warning("Please select input!")
             else:
                 output = run_external_script()
                 st.write("## Result")
 
                 # Return result based on algorithm
+                result, data_shape = [], []
+                flag_error = False
                 if algorithm == "Logistic regression":
-                    result, data_shape = get_result_lg(
-                        df, test_size, random_state
-                    )
+                    try:
+                        result, data_shape = get_result_lg(
+                            df,
+                            selected_input,
+                            selected_output,
+                            test_size,
+                            random_state,
+                        )
+                    except Exception as e:
+                        st.error(f"Error occurred: {e}")
+                        # set flag to True if an error occurred
+                        flag_error = True
+
+                # algorithm is linear regression
                 else:
                     result, data_shape = get_result_ln(df)
 
-                train_shape = str(data_shape[0]) + " " + str(data_shape[1])
-                test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+                if not flag_error:
+                    # code to run if no errors occurred
+                    train_shape = str(data_shape[0]) + " " + str(data_shape[1])
+                    test_shape = str(data_shape[2]) + " " + str(data_shape[3])
 
-                table_result = {
-                    "": ["Training set", "Test set"],
-                    "Data shape": [train_shape, test_shape],
-                    "F1 score": [result[0], result[1]],
-                }
-                st.table(table_result)
+                    table_result = {
+                        "": ["Training set", "Test set"],
+                        "Data shape": [train_shape, test_shape],
+                        "F1 score": [result[0], result[1]],
+                    }
+                    st.table(table_result)
