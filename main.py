@@ -134,10 +134,11 @@ if uploaded_file is not None:
                 # Return result based on algorithm
                 result, data_shape = [], []
                 result_train, result_test = [], []
+                fig = None
                 flag_error = False
                 if algorithm == "Logistic regression":
                     try:
-                        result, data_shape = get_result_lg(
+                        result, data_shape, fig = get_result_lg(
                             df,
                             selected_input,
                             selected_output,
@@ -174,6 +175,10 @@ if uploaded_file is not None:
                         "F1 score": [result[0], result[1]],
                     }
                     st.table(table_result)
+
+                    # Confusion matrix
+                    st.text("")
+                    st.pyplot(fig)
 
                 elif not flag_error and algorithm == "Linear regression":
                     train_shape = str(data_shape[0]) + " " + str(data_shape[1])
