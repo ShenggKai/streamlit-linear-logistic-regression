@@ -6,11 +6,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
 def get_result_ln(df, selected_input, selected_output, test_sz, random_st):
-    # one-hot encoding
-    df = pd.concat([df, pd.get_dummies(df["State"])], axis=1)
-    # Drop the original 'State' column
-    df.drop("State", axis=1, inplace=True)
-
     # normalize dataset
     scaler = MinMaxScaler()
     df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)

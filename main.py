@@ -28,6 +28,14 @@ if uploaded_file is not None:
     delimiter = st.selectbox("Select delimiter:", list(delimiters.keys()))
 
     df = pd.read_csv(uploaded_file, sep=delimiter, engine="python")
+
+    # reprocessing dataset
+    if not all(pd.api.types.is_numeric_dtype(df[col]) for col in df.columns):
+        # get the column names of non-numeric columns
+        non_numeric_cols = df.select_dtypes(exclude=['number']).columns
+        # one-hot encode non-numeric columns
+        df = pd.get_dummies(df, columns=non_numeric_cols)
+
     st.write(df)
 
     # Retrieve all columns in DataFrame and store them in list
