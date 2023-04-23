@@ -26,16 +26,26 @@ if uploaded_file is not None:
     # Create a list of possible delimiters
     delimiters = {",": ",", ";": ";", ".": ".", "Tab": "\tab"}
     delimiter = st.selectbox("Select delimiter:", list(delimiters.keys()))
-
     df = pd.read_csv(uploaded_file, sep=delimiter, engine="python")
-    st.write(df)
+    # st.write(df)
 
     # Retrieve all columns in DataFrame and store them in list
     column_names = df.columns.tolist()
-
     if len(column_names) <= 1:
         st.error("DataFrame error! Please choose a different delimiter.")
     else:
+        # reprocessing dataset
+        if not all(
+            pd.api.types.is_numeric_dtype(df[col]) for col in df.columns
+        ):
+            # get the column names of non-numeric columns
+            non_numeric_cols = df.select_dtypes(exclude=["number"]).columns
+            # one-hot encode non-numeric columns
+            df = pd.get_dummies(df, columns=non_numeric_cols)
+            column_names = df.columns.tolist()
+
+        st.write(df)
+
         # Select output
         st.write("## Select output")
 
