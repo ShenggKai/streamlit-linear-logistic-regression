@@ -160,15 +160,25 @@ if uploaded_file is not None:
                     )
 
                 if not flag_error and algorithm == "Logistic regression":
-                    # code to run if no errors occurred
                     train_shape = str(data_shape[0]) + " " + str(data_shape[1])
                     test_shape = str(data_shape[2]) + " " + str(data_shape[3])
-
+                    # code to run if no errors occurred
                     table_result = {
                         "": ["Training set", "Test set"],
                         "Data shape": [train_shape, test_shape],
                         "F1 score": [result[0], result[1]],
                     }
                     st.table(table_result)
+
                 elif not flag_error and algorithm == "Linear regression":
-                    st.write(result_train, result_test, data_shape)
+                    train_shape = str(data_shape[0]) + " " + str(data_shape[1])
+                    test_shape = str(data_shape[2]) + " " + str(data_shape[3])
+                    table_result = {
+                        "": ["Training set", "Test set"],
+                        "Data shape": [train_shape, test_shape],
+                        "Accuracy": [result_train[0], result_test[0]],
+                        "MAE": [result_train[1], result_test[1]],
+                        "MSE": [result_train[2], result_test[2]],
+                        "RMSE": [result_train[3], result_test[3]],
+                    }
+                    st.table(table_result)

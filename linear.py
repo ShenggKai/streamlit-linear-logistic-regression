@@ -45,26 +45,3 @@ def get_result_ln(df, selected_input, selected_output, test_sz, random_st):
     data_shape = [X_train.shape, y_train.shape, X_test.shape, y_test.shape]
 
     return result_train, result_test, data_shape
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("data/50_Startups.csv")
-    selected_input = [
-        "R&D Spend",
-        "Administration",
-        "Marketing Spend",
-        "California",
-        "Florida",
-        "New York",
-    ]
-    selected_output = ["Profit"]
-    test_sz = 0.2
-    random_st = 1
-
-    result_train, result_test, data_shape = get_result_ln(
-        df, selected_input, selected_output, test_sz, random_st
-    )
-
-    print(result_train)
-    print(result_test)
-    print(data_shape)
