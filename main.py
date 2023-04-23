@@ -3,7 +3,13 @@ import pandas as pd
 from logistic import get_result_lg
 from linear import get_result_ln
 
-st.set_page_config(page_title="Simple Streamlit App", page_icon=":whale:")
+st.set_page_config(
+    page_title="Simple Streamlit App",
+    page_icon=":whale:",
+    menu_items={
+        "About": "Simple app for linear regression and logistic regression."
+    },
+)
 
 # load css
 st.markdown(
