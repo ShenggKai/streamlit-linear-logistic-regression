@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="Simple Streamlit App",
     page_icon=":whale:",
     menu_items={
-        "About": "Simple app for linear regression and logistic regression."
+        "About": "Simple app for linear regression and logistic regression"
     },
 )
 
@@ -50,7 +50,7 @@ if uploaded_file is not None:
             df = pd.get_dummies(df, columns=non_numeric_cols)
             column_names = df.columns.tolist()
 
-        st.write(df)
+        st.dataframe(df, use_container_width=True)
 
         # Select output
         st.write("## Select output")
@@ -119,18 +119,17 @@ if uploaded_file is not None:
                 color: white;
                 padding: 15px 20px;
                 text-align: center;
-                text-decoration: none;
                 display: inline-block;
-                font-size: 18px;
-                margin: 4px 2px;
-                cursor: pointer;
+                font-size: 20px;
             }
             </style>
         """
-
         st.markdown(button_style, unsafe_allow_html=True)
+        col1, col2, col3, col4, col5 = st.columns(5)
+        with col3:
+            button_run = st.button("Run", use_container_width=True)
 
-        if st.button("Run"):
+        if button_run:
             # check if at least one checkbox is checked
             if len(selected_input) == 0:
                 st.warning("Please select input!")
@@ -159,7 +158,11 @@ if uploaded_file is not None:
                 # algorithm is linear regression
                 else:
                     try:
-                        result_train, result_test, data_shape = get_result_ln(
+                        (
+                            result_train,
+                            result_test,
+                            data_shape,
+                        ) = get_result_ln(
                             df,
                             selected_input,
                             selected_output,
